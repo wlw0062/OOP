@@ -1,0 +1,5 @@
+命令模式
+https://geek-docs.com/design-pattern/command-pattern/command-pattern-index.html
+
+UML图箭头
+https://blog.csdn.net/wglla/article/details/52225571
