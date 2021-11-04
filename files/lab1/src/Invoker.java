@@ -16,17 +16,17 @@ public class Invoker {
     {
         char commandName=input.charAt(0);
         switch (commandName) {
-            case 's' -> takeShowCommand();
-            case 'A' -> takeAddLastCommand(input.substring(3,input.length()-1));
-            case 'a' -> takeAddFirstCommand(input.substring(3,input.length()-1));
-            case 'D' -> takeDelLastCommand(Integer.parseInt(input.substring(2)));
-            case 'd' -> takeDelFirstCommand(Integer.parseInt(input.substring(2)));
-            case 'l' -> takeListModifyCommand(Integer.parseInt(input.substring(2)));
-            case 'u' -> takeUndoCommand();
-            case 'r' -> takeRedoCommand();
-            case 'm' -> {int index=input.indexOf(" ",2);takeDefineMacroCommand(Integer.parseInt(input.substring(2,index)), input.substring(index+1));}
-            case '$' -> takeMacroCommand(input.replaceFirst("\\$", ""));
-            default -> System.out.println("Invalid command.");
+            case 's': takeShowCommand();break;
+            case 'A': takeAddLastCommand(input.substring(3,input.length()-1));break;
+            case 'a': takeAddFirstCommand(input.substring(3,input.length()-1));break;
+            case 'D': takeDelLastCommand(Integer.parseInt(input.substring(2)));break;
+            case 'd': takeDelFirstCommand(Integer.parseInt(input.substring(2)));break;
+            case 'l': takeListModifyCommand(Integer.parseInt(input.substring(2)));break;
+            case 'u': takeUndoCommand();break;
+            case 'r': takeRedoCommand();break;
+            case 'm': {int index=input.indexOf(" ",2);takeDefineMacroCommand(Integer.parseInt(input.substring(2,index)), input.substring(index+1));break;}
+            case '$': takeMacroCommand(input.replaceFirst("\\$", ""));break;
+            default: System.out.println("Invalid command.");
         }
     }
 

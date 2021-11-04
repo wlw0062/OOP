@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 public interface Command {
     void execute();
 }
@@ -14,7 +16,6 @@ class SetTextCommand implements Command{
     @Override
     public void execute(){
         application.resetEditorText(initText);
-        System.out.println("当前编辑的字符串已重置为：" + initText);
     }
 }
 
@@ -28,7 +29,7 @@ class ShowCommand implements Command{
 
     @Override
     public void execute() {
-        System.out.println("当前编辑的字符串为：" + editor.getText());
+        System.out.println(editor.getText());
     }
 }
 
@@ -44,7 +45,7 @@ class ListModifyCommand implements Command{
 
     @Override
     public void execute() {
-        this.application.listModifyCommand(listNum);
+        application.listModifyCommand(listNum);
     }
 }
 
@@ -58,7 +59,7 @@ class UndoCommand implements Command{
 
     @Override
     public void execute() {
-        this.application.undoModifyCommand();
+        application.undoModifyCommand();
     }
 }
 
@@ -72,6 +73,26 @@ class RedoCommand implements Command{
 
     @Override
     public void execute() {
-        this.application.redoModifyCommand();
+        application.redoModifyCommand();
+    }
+}
+
+// 将最近执行的n个修改类命令组成一个宏命令（修改类命令）的命令
+class DefineMacroCommand implements Command{
+    private final Application application;
+    private final int commandNum;
+    private final String commandName;
+
+    public DefineMacroCommand(Application application, int commandNum, String commandName){
+        this.application = application;
+        this.commandNum = commandNum;
+        this.commandName = commandName;
+    }
+
+    @Override
+    public void execute() {
+        LinkedList<Revocable> modifyCommands = application.getReversedModifyCommandHistory(commandNum);
+        MacroCommand macroCommand = new MacroCommand(commandName, modifyCommands);
+        application.addToMacroCommandMap(macroCommand);
     }
 }

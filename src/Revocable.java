@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 public interface Revocable extends Command, Cloneable{
     void undo();
     Object clone();
@@ -15,12 +17,12 @@ class AddFromTailCommand implements Revocable{
 
     @Override
     public void execute() {
-        this.editor.addFromTail(tailText);
+        editor.addFromTail(tailText);
     }
 
     @Override
     public void undo() {
-        this.editor.deleteFromTail(tailText.length());
+        editor.deleteFromTail(tailText.length());
     }
 
     @Override
@@ -52,12 +54,12 @@ class AddFromHeadCommand implements Revocable{
 
     @Override
     public void execute() {
-        this.editor.addFromHead(headText);
+        editor.addFromHead(headText);
     }
 
     @Override
     public void undo() {
-        this.editor.deleteFromHead(headText.length());
+        editor.deleteFromHead(headText.length());
     }
 
     @Override
@@ -90,12 +92,12 @@ class DeleteFromTailCommand implements Revocable{
 
     @Override
     public void execute(){
-        this.deletedText = this.editor.deleteFromTail(deleteNum);
+        deletedText = editor.deleteFromTail(deleteNum);
     }
 
     @Override
     public void undo(){
-        this.editor.addFromTail(deletedText);
+        editor.addFromTail(deletedText);
     }
 
     @Override
@@ -128,12 +130,12 @@ class DeleteFromHeadCommand implements Revocable{
 
     @Override
     public void execute(){
-        this.deletedText = this.editor.deleteFromHead(deleteNum);
+        deletedText = editor.deleteFromHead(deleteNum);
     }
 
     @Override
     public void undo(){
-        this.editor.addFromHead(deletedText);
+        editor.addFromHead(deletedText);
     }
 
     @Override
@@ -150,5 +152,50 @@ class DeleteFromHeadCommand implements Revocable{
     @Override
     public String toString(){
         return "d " + deleteNum;
+    }
+}
+
+// 由最近几次执行的修改类命令组成的宏命令（修改类命令）
+class MacroCommand implements Revocable{
+    private final String macroCommandName;
+    private final LinkedList<Revocable> modifyCommands;
+
+    public MacroCommand(String macroCommandName, LinkedList<Revocable> modifyCommands){
+        this.macroCommandName = macroCommandName;
+        this.modifyCommands = modifyCommands;
+    }
+
+    @Override
+    public void execute() {
+        for (Revocable modifyCommand : modifyCommands){
+            modifyCommand.execute();
+        }
+    }
+
+    @Override
+    public void undo() {
+        LinkedList<Revocable> reverseList = new LinkedList<>();
+        for (Revocable modifyCommand : modifyCommands){
+            reverseList.addFirst(modifyCommand);
+        }
+        for (Revocable modifyCommand : reverseList){
+            modifyCommand.undo();
+        }
+    }
+
+    @Override
+    public Object clone() {
+        MacroCommand command = null;
+        try{
+            command = (MacroCommand) super.clone();
+        } catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+        return command;
+    }
+
+    @Override
+    public String toString(){
+        return macroCommandName;
     }
 }
