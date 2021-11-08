@@ -8,47 +8,46 @@ public class Application {
     private LinkedList<Revocable> undoCommandHistory;
     private final Map<String, MacroCommand> macroCommandMap;
 
-    public Application(){
+    public Application() {
         this.editor = new Editor();
         this.modifyCommandHistory = new LinkedList<>();
         this.undoCommandHistory = new LinkedList<>();
         this.macroCommandMap = new HashMap<>();
     }
 
-    public Editor getEditor(){
+    public Editor getEditor() {
         return editor;
     }
 
-    public void resetEditorText(String initText){
+    public void resetEditorText(String initText) {
         editor.setText(initText);
         modifyCommandHistory = new LinkedList<>();
         undoCommandHistory = new LinkedList<>();
     }
 
-    public void listModifyCommand(int listNum){
+    public void listModifyCommand(int listNum) {
         int length = modifyCommandHistory.size();
-        if(listNum > length){
+        if(listNum > length) {
             listNum = length;
         }
-        for(int i = 0; i < listNum; i++)
-        {
+        for(int i = 0; i < listNum; i++){
             System.out.println((i+1) + " " + modifyCommandHistory.get(i).toString());
         }
     }
 
-    public void executeNormalCommand(Command normalCommand){
+    public void executeNormalCommand(Command normalCommand) {
         normalCommand.execute();
     }
 
-    public void executeModifyCommand(Revocable modifyCommand, ShowCommand echo){
+    public void executeModifyCommand(Revocable modifyCommand, ShowCommand echo) {
         modifyCommand.execute();
         modifyCommandHistory.push(modifyCommand);
         undoCommandHistory = new LinkedList<>();
         echo.execute();
     }
 
-    public void undoModifyCommand(){
-        if (modifyCommandHistory.isEmpty()){
+    public void undoModifyCommand() {
+        if (modifyCommandHistory.isEmpty()) {
             return;
         }
         Revocable undoneCommand = modifyCommandHistory.pop();
@@ -56,8 +55,8 @@ public class Application {
         undoCommandHistory.push(undoneCommand);
     }
 
-    public void redoModifyCommand(){
-        if (undoCommandHistory.isEmpty()){
+    public void redoModifyCommand() {
+        if (undoCommandHistory.isEmpty()) {
             return;
         }
         Revocable redoneCommand = undoCommandHistory.pop();
@@ -65,20 +64,20 @@ public class Application {
         modifyCommandHistory.push(redoneCommand);
     }
 
-    public void addToMacroCommandMap(MacroCommand macroCommand){
+    public void addToMacroCommandMap(MacroCommand macroCommand) {
         macroCommandMap.put(macroCommand.toString(), macroCommand);
     }
 
-    public MacroCommand findMacroCommand(String macroCommandName){
+    public MacroCommand findMacroCommand(String macroCommandName) {
         if (macroCommandMap.containsKey(macroCommandName)) {
             return macroCommandMap.get(macroCommandName);
         }
         return null;
     }
 
-    public LinkedList<Revocable> getReversedModifyCommandHistory(int num){
+    public LinkedList<Revocable> getReversedModifyCommandHistory(int num) {
         int length = modifyCommandHistory.size();
-        if (num > length){
+        if (num > length) {
             num = length;
         }
         LinkedList<Revocable> sublist=new LinkedList<>(modifyCommandHistory.subList(0, num));
