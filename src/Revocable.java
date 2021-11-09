@@ -199,3 +199,39 @@ class MacroCommand implements Revocable {
         return macroCommandName;
     }
 }
+
+// 删除拼写错误单词的命令（修改类命令）
+class CheckSpellAndDeleteCommand implements Revocable {
+    private final Editor editor;
+    private String originText;
+
+    public CheckSpellAndDeleteCommand(Application application) {
+        this.editor = application.getEditor();
+    }
+
+    @Override
+    public void execute() {
+        originText = editor.checkSpellAndDelete();
+    }
+
+    @Override
+    public void undo() {
+        editor.setText(originText);
+    }
+
+    @Override
+    public Object clone() {
+        CheckSpellAndDeleteCommand command = null;
+        try {
+            command = (CheckSpellAndDeleteCommand) super.clone();
+        } catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+        return command;
+    }
+
+    @Override
+    public String toString() {
+        return "spell-m";
+    }
+}

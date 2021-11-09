@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public interface Dictionary {
     String[] getWrongWords(String[] words);
+    Integer[] getWrongIndexes(String[] words);
 }
 
 class MockDictionary implements Dictionary {
@@ -22,48 +23,37 @@ class MockDictionary implements Dictionary {
     }
 
     @Override
-    public String[] getWrongWords(String[] words) {
-        LinkedList<String> invalidList = new LinkedList<>();
-        for (String word : words) {
-            boolean flag = false;
-            for (String valid : wordList) {
-                if (word.equals(valid)) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag && !word.equals("")) {
-                invalidList.add(word);
-            }
-        }
-        return invalidList.toArray(new String[0]);
+    public String[] getWrongWords(String[] wordsToCheck) {
+        return Common.getWrongWords(wordList, wordsToCheck);
+    }
+
+    @Override
+    public Integer[] getWrongIndexes(String[] wordsToCheck) {
+        return Common.getWrongIndexes(wordList, wordsToCheck);
     }
 }
 
 class FileDictionary implements Dictionary {
-    private LinkedList<String> wordList;
-    private String filePath;
+    private final String filePath;
+    private String[] wordList;
 
     public FileDictionary(String filePath) {
         this.filePath = filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+        readDictionaryFile();
     }
 
     public String[] getWordList() {
-        readDictionaryFile();
-        return wordList.toArray(new String[0]);
+        return wordList;
     }
 
     private void readDictionaryFile() {
-        wordList = new LinkedList<>();
+        LinkedList<String> list = new LinkedList<>();
         try (Scanner scanner = new Scanner(new FileReader(filePath))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                wordList.add(line);
+                list.add(line.trim());
             }
+            wordList = list.toArray(new String[0]);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,13 +61,11 @@ class FileDictionary implements Dictionary {
 
     @Override
     public String[] getWrongWords(String[] wordsToCheck) {
-        readDictionaryFile();
-        LinkedList<String> invalidList = new LinkedList<>();
-        for (String word : wordsToCheck) {
-            if (!wordList.contains(word) && !word.equals("")) {
-                invalidList.add(word);
-            }
-        }
-        return invalidList.toArray(new String[0]);
+        return Common.getWrongWords(wordList, wordsToCheck);
+    }
+
+    @Override
+    public Integer[] getWrongIndexes(String[] wordsToCheck) {
+        return Common.getWrongIndexes(wordList, wordsToCheck);
     }
 }

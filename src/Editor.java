@@ -5,8 +5,8 @@ public class Editor {
 
     public Editor() {
         this.text = "";
-        this.format = Constants.TXT_FORMAT;
-        this.dictionary = new FileDictionary(Constants.ENG_FILE_PATH);
+        this.format = Common.TXT_FORMAT;
+        this.dictionary = new FileDictionary(Common.ENG_FILE_PATH);
     }
 
     public String getText() {
@@ -17,16 +17,43 @@ public class Editor {
         this.text = text;
     }
 
-    public void setFormat(Format format){
+    public void setFormat(Format format) {
         this.format = format;
     }
 
-    public void setDictionary(Dictionary dictionary){
+    public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
     }
 
-    public String[] checkSpell(){
+    public String[] checkSpell() {
         return dictionary.getWrongWords(format.getWords(text));
+    }
+
+    public String checkSpellAndMark() {
+        String[] words = format.getWords(text);
+        Integer[] startPositions = format.getWordStartIndexes(text);
+        Integer[] errorIndexes = dictionary.getWrongIndexes(words);
+        StringBuilder stringBuilder = new StringBuilder(text);
+        for (int i = errorIndexes.length - 1; i >= 0; i--) {
+            int index = errorIndexes[i];
+            stringBuilder.replace(startPositions[index], startPositions[index] + words[index].length(), "*[" + words[index] + "]");
+        }
+        return stringBuilder.toString();
+    }
+
+    // 在text中删除拼写错误的单词，返回原来的text
+    public String checkSpellAndDelete() {
+        String origin = text;
+        String[] words = format.getWords(text);
+        Integer[] startPositions = format.getWordStartIndexes(text);
+        Integer[] errorIndexes = dictionary.getWrongIndexes(words);
+        StringBuilder stringBuilder = new StringBuilder(text);
+        for (int i = errorIndexes.length - 1; i >= 0; i--) {
+            int index = errorIndexes[i];
+            stringBuilder.replace(startPositions[index], startPositions[index] + words[index].length(), "");
+        }
+        text = stringBuilder.toString();
+        return origin;
     }
 
     public void addFromHead(String headText) {

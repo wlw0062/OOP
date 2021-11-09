@@ -74,8 +74,17 @@ public class Invoker {
         else if (Pattern.matches("(^content )([\\w]+)", commandString)) {
             return new SetFormatCommand(application, commandString.substring(8));
         }
+        // 执行拼写检查，列出拼写错误单词的命令，spell
         else if (commandString.equals("spell")) {
             return new CheckSpellCommand(application);
+        }
+        // 执行拼写检查，标记拼写错误单词的命令，spell-a
+        else if (commandString.equals("spell-a")) {
+            return new CheckSpellAndMarkCommand(application);
+        }
+        // 执行拼写检查，删除拼写错误单词的命令，spell-m
+        else if (commandString.equals("spell-m")) {
+            return new CheckSpellAndDeleteCommand(application);
         }
         return null;
     }

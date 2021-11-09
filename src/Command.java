@@ -109,8 +109,8 @@ class SetLanguageCommand implements Command {
 
     @Override
     public void execute() {
-        if (Constants.FILE_PATH_MAP.containsKey(language)) {
-            editor.setDictionary(new FileDictionary(Constants.FILE_PATH_MAP.get(language)));
+        if (Common.FILE_PATH_MAP.containsKey(language)) {
+            editor.setDictionary(new FileDictionary(Common.FILE_PATH_MAP.get(language)));
         }
     }
 }
@@ -127,8 +127,8 @@ class SetFormatCommand implements Command {
 
     @Override
     public void execute() {
-        if (Constants.FORMAT_MAP.containsKey(format)) {
-            editor.setFormat(Constants.FORMAT_MAP.get(format));
+        if (Common.FORMAT_MAP.containsKey(format)) {
+            editor.setFormat(Common.FORMAT_MAP.get(format));
         }
     }
 }
@@ -147,5 +147,19 @@ class CheckSpellCommand implements Command {
         for (String word : wrongList) {
             System.out.println(word);
         }
+    }
+}
+
+// 执行拼写检查，标记出所有拼写错误单词的命令
+class CheckSpellAndMarkCommand implements Command {
+    private final Editor editor;
+
+    public CheckSpellAndMarkCommand(Application application) {
+        this.editor = application.getEditor();
+    }
+
+    @Override
+    public void execute() {
+        System.out.println(editor.checkSpellAndMark());
     }
 }
