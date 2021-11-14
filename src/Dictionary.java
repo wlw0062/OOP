@@ -8,17 +8,9 @@ public interface Dictionary {
 }
 
 class MockDictionary implements Dictionary {
-    private String[] wordList;
+    private final String[] wordList;
 
     public MockDictionary(String[] wordList) {
-        this.wordList = wordList;
-    }
-
-    public String[] getWordList() {
-        return wordList;
-    }
-
-    public void setWordList(String[] wordList) {
         this.wordList = wordList;
     }
 
@@ -42,10 +34,6 @@ class FileDictionary implements Dictionary {
         readDictionaryFile();
     }
 
-    public String[] getWordList() {
-        return wordList;
-    }
-
     private void readDictionaryFile() {
         LinkedList<String> list = new LinkedList<>();
         try (Scanner scanner = new Scanner(new FileReader(filePath))) {
@@ -57,6 +45,10 @@ class FileDictionary implements Dictionary {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String[] getWordList() {
+        return wordList;
     }
 
     @Override

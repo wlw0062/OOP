@@ -9,6 +9,12 @@ public class Editor {
         this.dictionary = new FileDictionary(Common.ENG_FILE_PATH);
     }
 
+    public Editor(String text, Format format, Dictionary dictionary) {
+        this.text = text;
+        this.format = format;
+        this.dictionary = dictionary;
+    }
+
     public String getText() {
         return text;
     }

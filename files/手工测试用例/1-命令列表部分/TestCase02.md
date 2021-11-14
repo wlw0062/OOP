@@ -4,19 +4,19 @@
 - Output:
   - To be or not to be
 - Input:
-  - a ", it is"
+  - A ", it is"
 - Output:
   - To be or not to be, it is
 - Input:
   - l 1
 - Output:
-  - 1 a ", it is"
+  - 1 A ", it is"
 - Input:
   - l 5
 - Output:
-  - 1 a ", it is"
+  - 1 A ", it is"
 - Input:
-  - A "No. "
+  - a "No. "
 - Output:
   - No. To be or not to be, it is
 - Input:
@@ -60,13 +60,13 @@
 - Input:
   - l 2
 - Output:
-  - 1 A "No. "
-  - 2 a ", it is"
+  - 1 a "No. "
+  - 2 A ", it is"
 - Input:
   - l 10
 - Output:
-  - 1 A "No. "
-  - 2 a ", it is"
+  - 1 a "No. "
+  - 2 A ", it is"
 - Input:
   - r
 - Input:

@@ -4,8 +4,11 @@ import java.util.Map;
 
 public class Application {
     private final Editor editor;
+    // 执行修改命令的历史
     private LinkedList<Revocable> modifyCommandHistory;
+    // 撤销修改命令的历史
     private LinkedList<Revocable> undoCommandHistory;
+    // 系统中宏命令名称与内容的Map
     private final Map<String, MacroCommand> macroCommandMap;
 
     public Application() {
@@ -19,20 +22,38 @@ public class Application {
         return editor;
     }
 
+    public LinkedList<Revocable> getModifyCommandHistory() {
+        return modifyCommandHistory;
+    }
+
+    public void setModifyCommandHistory(LinkedList<Revocable> modifyCommandHistory) {
+        this.modifyCommandHistory = modifyCommandHistory;
+    }
+
+    public LinkedList<Revocable> getUndoCommandHistory() {
+        return undoCommandHistory;
+    }
+
+    public Map<String, MacroCommand> getMacroCommandMap() {
+        return macroCommandMap;
+    }
+
     public void resetEditorText(String initText) {
         editor.setText(initText);
         modifyCommandHistory = new LinkedList<>();
         undoCommandHistory = new LinkedList<>();
     }
 
-    public void listModifyCommand(int listNum) {
+    public String[] listModifyCommand(int listNum) {
         int length = modifyCommandHistory.size();
         if(listNum > length) {
             listNum = length;
         }
+        String[] commandNames = new String[listNum];
         for(int i = 0; i < listNum; i++){
-            System.out.println((i+1) + " " + modifyCommandHistory.get(i).toString());
+            commandNames[i] = modifyCommandHistory.get(i).toString();
         }
+        return commandNames;
     }
 
     public void executeNormalCommand(Command normalCommand) {
@@ -41,6 +62,7 @@ public class Application {
 
     public void executeModifyCommand(Revocable modifyCommand, ShowCommand echo) {
         modifyCommand.execute();
+        // 将最近执行的放到最前面
         modifyCommandHistory.push(modifyCommand);
         undoCommandHistory = new LinkedList<>();
         echo.execute();

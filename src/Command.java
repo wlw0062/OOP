@@ -45,7 +45,10 @@ class ListModifyCommand implements Command {
 
     @Override
     public void execute() {
-        application.listModifyCommand(listNum);
+        String[] commandNames = application.listModifyCommand(listNum);
+        for(int i = 0; i < commandNames.length; i++){
+            System.out.println((i+1) + " " + commandNames[i]);
+        }
     }
 }
 
