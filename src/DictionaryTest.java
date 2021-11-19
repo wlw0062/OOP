@@ -27,8 +27,8 @@ class MockDictionaryTest {
 class FileDictionaryTest {
     @Test
     void getWordList() {
-        String path = "D:\\学习\\7\\面向对象\\OOP_Lab1\\files\\手工测试用例\\3-Bonus\\TestCase01\\eng.txt";
-        FileDictionary fileDictionary = new FileDictionary(path);
+        String path = "./files/手工测试用例/3-Bonus/TestCase01/eng.txt";
+        FileDictionary fileDictionary = new FileDictionary(path, "eng");
         String[] result = fileDictionary.getWordList();
         String[] expect = { "The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog" ,"title" };
         assertArrayEquals(expect, result);
@@ -36,8 +36,8 @@ class FileDictionaryTest {
 
     @Test
     void getWrongWords() {
-        String path = "D:\\学习\\7\\面向对象\\OOP_Lab1\\files\\手工测试用例\\3-Bonus\\TestCase01\\eng.txt";
-        FileDictionary fileDictionary = new FileDictionary(path);
+        String path = "./files/手工测试用例/3-Bonus/TestCase01/eng.txt";
+        FileDictionary fileDictionary = new FileDictionary(path, "eng");
         String[] checkList = { "tha", "lazy", "faz" };
         String[] result = fileDictionary.getWrongWords(checkList);
         String[] expect = { "tha", "faz" };
@@ -46,8 +46,8 @@ class FileDictionaryTest {
 
     @Test
     void getWrongIndexes() {
-        String path = "D:\\学习\\7\\面向对象\\OOP_Lab1\\files\\手工测试用例\\3-Bonus\\TestCase01\\eng.txt";
-        FileDictionary fileDictionary = new FileDictionary(path);
+        String path = "./files/手工测试用例/3-Bonus/TestCase01/eng.txt";
+        FileDictionary fileDictionary = new FileDictionary(path, "eng");
         String[] checkList = { "tha", "lazy", "faz" };
         Integer[] result = fileDictionary.getWrongIndexes(checkList);
         Integer[] expect = { 0, 2 };

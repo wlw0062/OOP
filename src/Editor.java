@@ -6,7 +6,7 @@ public class Editor {
     public Editor() {
         this.text = "";
         this.format = Common.TXT_FORMAT;
-        this.dictionary = new FileDictionary(Common.ENG_FILE_PATH);
+        this.dictionary = new FileDictionary(Common.ENG_FILE_PATH, "eng");
     }
 
     public Editor(String text, Format format, Dictionary dictionary) {
@@ -23,8 +23,16 @@ public class Editor {
         this.text = text;
     }
 
+    public Format getFormat() {
+        return format;
+    }
+
     public void setFormat(Format format) {
         this.format = format;
+    }
+
+    public Dictionary getDictionary() {
+        return dictionary;
     }
 
     public void setDictionary(Dictionary dictionary) {

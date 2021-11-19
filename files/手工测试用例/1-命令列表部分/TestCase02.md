@@ -36,7 +36,7 @@
 - Input:
   - u
 - Input:
-  - s
+  - s``
 - Output:
   - To be or not to be
 - Input:

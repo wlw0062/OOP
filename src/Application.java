@@ -26,10 +26,6 @@ public class Application {
         return modifyCommandHistory;
     }
 
-    public void setModifyCommandHistory(LinkedList<Revocable> modifyCommandHistory) {
-        this.modifyCommandHistory = modifyCommandHistory;
-    }
-
     public LinkedList<Revocable> getUndoCommandHistory() {
         return undoCommandHistory;
     }

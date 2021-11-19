@@ -165,6 +165,10 @@ class MacroCommand implements Revocable {
         this.modifyCommands = modifyCommands;
     }
 
+    public LinkedList<Revocable> getModifyCommands() {
+        return modifyCommands;
+    }
+
     @Override
     public void execute() {
         for (Revocable modifyCommand : modifyCommands) {

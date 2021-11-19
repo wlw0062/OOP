@@ -113,7 +113,7 @@ class SetLanguageCommand implements Command {
     @Override
     public void execute() {
         if (Common.FILE_PATH_MAP.containsKey(language)) {
-            editor.setDictionary(new FileDictionary(Common.FILE_PATH_MAP.get(language)));
+            editor.setDictionary(new FileDictionary(Common.FILE_PATH_MAP.get(language), language));
         }
     }
 }

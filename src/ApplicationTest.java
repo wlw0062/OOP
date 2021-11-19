@@ -18,10 +18,9 @@ class ApplicationTest {
     @Test
     void listModifyCommand() {
         Application application = new Application();
-        LinkedList<Revocable> history = new LinkedList<>();
-        history.push(new AddFromHeadCommand(application, "head"));
-        history.push(new DeleteFromTailCommand(application, 2));
-        application.setModifyCommandHistory(history);
+        ShowCommand echo = new ShowCommand(application);
+        application.executeModifyCommand(new AddFromHeadCommand(application, "head"), echo);
+        application.executeModifyCommand(new DeleteFromTailCommand(application, 2), echo);
         String[] result = application.listModifyCommand(3);
         String[] expect = { "D 2", "a \"head\"" };
         assertArrayEquals(expect, result);
