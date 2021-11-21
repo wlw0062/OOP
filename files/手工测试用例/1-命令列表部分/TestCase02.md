@@ -36,7 +36,7 @@
 - Input:
   - u
 - Input:
-  - s``
+  - s
 - Output:
   - To be or not to be
 - Input:
@@ -77,3 +77,20 @@
   - $ADD
 - Output:
   - No. No. To be or not to be, it is, it is
+- Input:
+  - u
+- Input:
+  - s
+- Output:
+  - No. To be or not to be, it is
+- Input:
+  - r
+- Input:
+  - s
+- Output:
+  - No. No. To be or not to be, it is, it is
+- Input:
+  - l 2
+- Output:
+  - 1 $ADD
+  - 2 a "No. "

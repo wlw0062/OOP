@@ -9,6 +9,7 @@ class TxtFormatTest {
         String text = "Hi, world.";
         String[] result = txtFormat.getWords(text);
         String[] expect = { "Hi", "world" };
+        // 检验是否成功得到txt格式的文本中的单词列表
         assertArrayEquals(expect, result);
     }
 
@@ -18,6 +19,7 @@ class TxtFormatTest {
         String text = "Hi, world.";
         Integer[] result = txtFormat.getWordStartIndexes(text);
         Integer[] expect = { 0, 4 };
+        // 检验是否成功得到txt格式的文本中的每个单词首位位置
         assertArrayEquals(expect, result);
     }
 }
@@ -29,6 +31,7 @@ class XmlFormatTest {
         String text = "Hi,<a><b>world.</b></a>";
         String[] result = xmlFormat.getWords(text);
         String[] expect = { "Hi", "world" };
+        // 检验是否成功得到xml格式的文本中的单词列表
         assertArrayEquals(expect, result);
     }
 
@@ -38,6 +41,7 @@ class XmlFormatTest {
         String text = "Hi,<a><b>world.</b></a>";
         Integer[] result = xmlFormat.getWordStartIndexes(text);
         Integer[] expect = { 0, 9 };
+        // 检验是否成功得到xml格式的文本中的每个单词首位位置
         assertArrayEquals(expect, result);
     }
 }

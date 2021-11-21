@@ -165,6 +165,11 @@ class MacroCommand implements Revocable {
         this.modifyCommands = modifyCommands;
     }
 
+    // 这里的宏命令名称是不带$的
+    public String getMacroCommandName() {
+        return macroCommandName;
+    }
+
     public LinkedList<Revocable> getModifyCommands() {
         return modifyCommands;
     }
@@ -178,6 +183,7 @@ class MacroCommand implements Revocable {
 
     @Override
     public void undo() {
+        // 宏命令的undo需要将自己的命令列表以相反顺序执行其undo函数
         LinkedList<Revocable> reverseList = new LinkedList<>();
         for (Revocable modifyCommand : modifyCommands) {
             reverseList.addFirst(modifyCommand);
@@ -200,7 +206,7 @@ class MacroCommand implements Revocable {
 
     @Override
     public String toString() {
-        return macroCommandName;
+        return "$" + macroCommandName;
     }
 }
 
@@ -215,11 +221,13 @@ class CheckSpellAndDeleteCommand implements Revocable {
 
     @Override
     public void execute() {
+        // originText是删除前的文本，便于undo操作
         originText = editor.checkSpellAndDelete();
     }
 
     @Override
     public void undo() {
+        // 直接将文本设置会删除前的内容
         editor.setText(originText);
     }
 

@@ -1,4 +1,3 @@
-
 - Input:
   - A "world"
 - Output:

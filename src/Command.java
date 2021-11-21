@@ -4,6 +4,7 @@ public interface Command {
     void execute();
 }
 
+// 设置编辑区文字内容的命令
 class SetTextCommand implements Command {
     private final Application application;
     private final String initText;
@@ -94,8 +95,11 @@ class DefineMacroCommand implements Command {
 
     @Override
     public void execute() {
+        // 得到最近n次执行修改类命令的列表（新执行在后，因为按此顺序执行可以重现前n条命令一起作用的效果）
         LinkedList<Revocable> modifyCommands = application.getReversedModifyCommandHistory(commandNum);
+        // 以宏命令名称和操作命令列表创建一条新的宏命令
         MacroCommand macroCommand = new MacroCommand(commandName, modifyCommands);
+        // 将该宏命令添加到application的宏命令映射表中
         application.addToMacroCommandMap(macroCommand);
     }
 }
@@ -112,6 +116,7 @@ class SetLanguageCommand implements Command {
 
     @Override
     public void execute() {
+        // 如果存在该语言对应的文件路径，则将语言修改为目标语言（同时新建dictionary时会调用读取文件方法获取新语言的词表，实现动态切换语言的效果）
         if (Common.FILE_PATH_MAP.containsKey(language)) {
             editor.setDictionary(new FileDictionary(Common.FILE_PATH_MAP.get(language), language));
         }
@@ -130,13 +135,14 @@ class SetFormatCommand implements Command {
 
     @Override
     public void execute() {
+        // 如果常量中有该格式对应的类，则切换格式为目标格式
         if (Common.FORMAT_MAP.containsKey(format)) {
             editor.setFormat(Common.FORMAT_MAP.get(format));
         }
     }
 }
 
-// 执行拼写检查，列出所有拼写错误单词的命令
+// 执行拼写检查，列出所有拼写错误单词的命令（不修改文本）
 class CheckSpellCommand implements Command {
     private final Editor editor;
 
@@ -153,7 +159,7 @@ class CheckSpellCommand implements Command {
     }
 }
 
-// 执行拼写检查，标记出所有拼写错误单词的命令
+// 执行拼写检查，标记出所有拼写错误单词的命令（不修改文本）
 class CheckSpellAndMarkCommand implements Command {
     private final Editor editor;
 

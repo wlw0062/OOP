@@ -27,40 +27,57 @@ class InvokerTest {
     void parseCommandString() {
         Application application = new Application();
         Invoker invoker = new Invoker(application);
+        // 设置初始文本的命令
         Command command = invoker.parseCommandString("-t \"init\"");
         assertTrue(command instanceof SetTextCommand);
+        // 显示当前编辑文本的命令
         command = invoker.parseCommandString("s");
         assertTrue(command instanceof ShowCommand);
+        // 在尾部添加字符串的命令
         command = invoker.parseCommandString("A \"tail\"");
         assertTrue(command instanceof AddFromTailCommand);
+        // 在头部添加字符串的命令
         command = invoker.parseCommandString("a \"head\"");
         assertTrue(command instanceof AddFromHeadCommand);
+        // 从尾部删除指定数量的字符的命令
         command = invoker.parseCommandString("D 2");
         assertTrue(command instanceof DeleteFromTailCommand);
+        // 从头部删除指定数量的字符的命令
         command = invoker.parseCommandString("d 2");
         assertTrue(command instanceof DeleteFromHeadCommand);
+        // 列出最近执行的修改类命令列表的命令
         command = invoker.parseCommandString("l 1");
         assertTrue(command instanceof ListModifyCommand);
+        // undo命令
         command = invoker.parseCommandString("u");
         assertTrue(command instanceof UndoCommand);
+        // redo命令
         command = invoker.parseCommandString("r");
         assertTrue(command instanceof RedoCommand);
+        // 定义宏命令
         command = invoker.parseCommandString("m 2 macro");
         assertTrue(command instanceof DefineMacroCommand);
-        // 要先定义宏命令
+        // 要先执行定义宏命令的命令
         invoker.executeCommand("m 2 macro");
+        // 执行宏命令
         command = invoker.parseCommandString("$macro");
         assertTrue(command instanceof MacroCommand);
+        // 指定语言的命令
         command = invoker.parseCommandString("lang fra");
         assertTrue(command instanceof SetLanguageCommand);
+        // 指定格式的命令
         command = invoker.parseCommandString("content xml");
         assertTrue(command instanceof SetFormatCommand);
+        // 执行拼写检查，列出拼写错误单词的命令
         command = invoker.parseCommandString("spell");
         assertTrue(command instanceof CheckSpellCommand);
+        // 执行拼写检查，标记拼写错误单词的命令
         command = invoker.parseCommandString("spell-a");
         assertTrue(command instanceof CheckSpellAndMarkCommand);
+        // 执行拼写检查，删除拼写错误单词的命令
         command = invoker.parseCommandString("spell-m");
         assertTrue(command instanceof CheckSpellAndDeleteCommand);
+        // 无效命令
         command = invoker.parseCommandString("invalid");
         assertNull(command);
     }
@@ -140,7 +157,7 @@ class InvokerTest {
                 "ab", "abc", "abc", // case 3
                 "ab", "abde", "abde", "1 A \"de\"", "2 D 1", // case 4.1
                 "ab", "abdef", "abdef", "1 A \"def\"" , "2 D 1", // case 4.2
-                "abdedef", "abdef", "abdedef", "abdedede", "1 macro2", "2 macro1", "3 A \"def\"", "4 D 1" // case 6
+                "abdedef", "abdef", "abdedef", "abdedede", "1 $macro2", "2 $macro1", "3 A \"def\"", "4 D 1" // case 6
         };
         for (String command : commands) {
             invoker.executeCommand(command);

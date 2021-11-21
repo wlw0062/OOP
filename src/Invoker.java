@@ -7,14 +7,18 @@ public class Invoker {
 
     public Invoker(Application application) {
         this.application = application;
+        // 用于回显执行修改类命令后的文本
         this.echo = new ShowCommand(this.application);
     }
 
     public void executeCommand(String commandString) {
+        // 先将命令字符串根据命令规则转化为对应类型的命令
         Command command = parseCommandString(commandString);
+        // 如果是修改类命令，则调用application的执行修改类命令方法
         if (command instanceof Revocable) {
             application.executeModifyCommand((Revocable) command, echo);
         }
+        // 如果不为空（则一定是非修改类命令），则调用application的执行非修改类命令方法
         else if (command != null) {
             application.executeNormalCommand(command);
         }
@@ -92,6 +96,7 @@ public class Invoker {
     public static void main(String[] args) {
         Invoker invoker = new Invoker(new Application());
         Scanner scanner = new Scanner(System.in);
+        // 每输入一行，分别执行对应命令
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine();
             invoker.executeCommand(input);
